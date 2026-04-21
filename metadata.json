@@ -1,0 +1,6 @@
+{
+  "name": "TrailScout AI",
+  "description": "An intelligent hiking assistant that helps you discover and plan trails near you with contextual advice and personalized recommendations.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["AI-Assisted Navigation", "Real-time Planning", "Trail Discovery"]
+}
