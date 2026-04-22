@@ -18,6 +18,8 @@ const profilePanelEl = document.getElementById("profilePanel");
 const profilePickerEl = document.getElementById("profilePicker");
 const profilePickerListEl = document.getElementById("profilePickerList");
 const openPickerEl = document.getElementById("openPicker");
+const heroToScoutEl = document.getElementById("heroToScout");
+const dbHealthPillEl = document.getElementById("dbHealthPill");
 
 let activeSessionId = null;
 let thinkingBubbleEl = null;
@@ -37,6 +39,43 @@ function clipTrailingPunctuation(url) {
     s = s.slice(0, -1);
   }
   return s;
+}
+
+async function refreshDbHealth() {
+  if (!dbHealthPillEl) return;
+  dbHealthPillEl.className = "ss-db-pill is-busy";
+  dbHealthPillEl.textContent = "Checking…";
+  try {
+    const res = await fetch("/api/health", { headers: { Accept: "application/json" } });
+    let h = null;
+    try {
+      h = res.ok ? await res.json() : null;
+    } catch {
+      h = null;
+    }
+    dbHealthPillEl.classList.remove("is-busy");
+    if (!res.ok || !h) {
+      dbHealthPillEl.className = "ss-db-pill is-warn";
+      dbHealthPillEl.textContent = "Health failed";
+      return;
+    }
+    if (h.configured === false) {
+      dbHealthPillEl.className = "ss-db-pill is-off";
+      dbHealthPillEl.textContent = "DB not set";
+      return;
+    }
+    if (h.database === "reachable") {
+      dbHealthPillEl.className = "ss-db-pill is-ok";
+      dbHealthPillEl.textContent = "Trails DB · live";
+    } else {
+      dbHealthPillEl.className = "ss-db-pill is-warn";
+      dbHealthPillEl.textContent = h.database === "unreachable" ? "DB error" : "DB offline";
+    }
+  } catch {
+    dbHealthPillEl.classList.remove("is-busy");
+    dbHealthPillEl.className = "ss-db-pill is-warn";
+    dbHealthPillEl.textContent = "Health failed";
+  }
 }
 
 function showToast(message, variant = "err") {
@@ -664,6 +703,8 @@ openPickerEl?.addEventListener("click", () => {
   openProfilePicker();
 });
 
+heroToScoutEl?.addEventListener("click", () => switchTab("scout"));
+
 profilePickerEl?.addEventListener("click", (e) => {
   if (e.target === profilePickerEl) {
     closeProfilePicker();
@@ -703,3 +744,4 @@ async function initSocial() {
 })();
 
 initSocial();
+refreshDbHealth();

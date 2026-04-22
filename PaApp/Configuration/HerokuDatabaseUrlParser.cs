@@ -12,7 +12,7 @@ public static class HerokuDatabaseUrlParser
             return null;
 
         if (!Uri.TryCreate(databaseUrl, UriKind.Absolute, out var uri) ||
-            (uri.Scheme != "mysql" && uri.Scheme != "mysql2"))
+            (uri.Scheme != "mysql" && uri.Scheme != "mysql2" && uri.Scheme != "mariadb"))
             return null;
 
         var userInfo = uri.UserInfo.Split(':', 2);

@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.AspNetCore.HttpOverrides;
+using PaApp.Configuration;
 using PaApp.Services;
 using PaApp.Services.Gemini;
 
@@ -84,6 +85,13 @@ builder.Services.AddHttpClient("openmeteo", client =>
 });
 
 var app = builder.Build();
+
+var mysqlConfigured = !string.IsNullOrWhiteSpace(ConnectionStringResolver.Resolve(app.Configuration));
+if (mysqlConfigured)
+    app.Logger.LogInformation("MySQL connection string resolved from configuration or environment.");
+else
+    app.Logger.LogWarning(
+        "MySQL is not configured. Attach JawsDB (JAWSDB_URL) or set MYSQL_CONNECTION_STRING / ConnectionStrings__MySql.");
 
 if (app.Environment.IsDevelopment())
 {

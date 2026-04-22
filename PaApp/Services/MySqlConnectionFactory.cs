@@ -16,7 +16,7 @@ public sealed class MySqlConnectionFactory : IMySqlConnectionFactory
     {
         if (string.IsNullOrWhiteSpace(_connectionString))
             throw new InvalidOperationException(
-                "MySQL is not configured. Set MYSQL_CONNECTION_STRING, ConnectionStrings__MySql, or DATABASE_URL.");
+                "MySQL is not configured. Set MYSQL_CONNECTION_STRING, ConnectionStrings__MySql, DATABASE_URL, or JawsDB JAWSDB_URL (see ConnectionStringResolver).");
 
         var connection = new MySqlConnection(_connectionString);
         await connection.OpenAsync(cancellationToken).ConfigureAwait(false);

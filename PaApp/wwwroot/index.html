@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="SummitScout — a social feed for hikers: trail picks, profiles, and an AI Scout for weather, gear, and safety." />
-  <meta name="theme-color" content="#fafafa" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%2316a34a' d='M16 4 28 26H4z'/%3E%3C/svg%3E" />
-  <title>SummitScout — Hike &amp; connect</title>
+  <meta name="description" content="SummitScout AI — conversational trail intelligence: Gemini-powered Scout, live MySQL trail data, weather, and a hiker social feed." />
+  <meta name="theme-color" content="#3a4a3e" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%234a5c48' d='M16 3 27 25H5z'/%3E%3Ccircle cx='22' cy='10' r='3.5' fill='%23c97b63'/%3E%3C/svg%3E" />
+  <title>SummitScout AI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/app.css" />
 </head>
 <body>
   <div id="profilePicker" class="ss-modal-overlay" hidden>
     <div class="ss-modal" role="dialog" aria-labelledby="pickerTitle">
       <h2 id="pickerTitle" class="ss-headline">Who’s hiking?</h2>
-      <p style="margin:0 0 0.75rem;font-size:0.88rem;color:#525252;">Pick a demo profile (cookie, no password). You can switch anytime.</p>
+      <p class="ss-modal-lead">Pick a demo profile (cookie, no password). You can switch anytime.</p>
       <ul class="ss-modal-list" id="profilePickerList"></ul>
     </div>
   </div>
@@ -25,15 +25,33 @@
     <header class="ss-header">
       <div class="ss-brand">
         <span class="ss-brand-mark" aria-hidden="true"></span>
-        <span class="ss-brand-text">SummitScout</span>
+        <div class="ss-brand-copy">
+          <span class="ss-brand-title">SummitScout <span class="ss-brand-ai">AI</span></span>
+          <span class="ss-brand-tagline">Grounded trail intelligence</span>
+        </div>
       </div>
       <div class="ss-header-actions">
-        <button type="button" class="ss-btn-icon" id="openPicker" title="Switch profile" aria-label="Switch profile">⇄</button>
+        <span class="ss-db-pill" id="dbHealthPill" title="Database status" aria-live="polite">Checking DB…</span>
+        <button type="button" class="ss-btn-icon" id="openPicker" title="Switch profile" aria-label="Switch profile">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+        </button>
       </div>
     </header>
 
     <main class="ss-main">
       <section id="viewHome" class="ss-view is-active" aria-label="Home feed">
+        <div class="ss-hero" aria-label="SummitScout AI overview">
+          <div class="ss-hero-glow" aria-hidden="true"></div>
+          <div class="ss-hero-inner">
+            <p class="ss-hero-kicker"><span class="ss-ai-dot" aria-hidden="true"></span> Gemini + your trail database</p>
+            <h1 class="ss-hero-title">Plan smarter hikes with <em>conversational</em> trail data.</h1>
+            <p class="ss-hero-lead">SummitScout AI reads live MySQL routes, weather, and community posts — then explains what matters in plain language.</p>
+            <div class="ss-hero-row">
+              <button type="button" class="ss-hero-cta" id="heroToScout">Open AI Scout</button>
+              <span class="ss-hero-meta">RAG · tools · social feed</span>
+            </div>
+          </div>
+        </div>
         <p class="ss-sub">For you</p>
         <div class="ss-story-strip" id="storyStrip" aria-label="People to follow"></div>
         <div class="ss-feed" id="feedStream"></div>
@@ -45,18 +63,24 @@
       </section>
 
       <section id="viewScout" class="ss-view" aria-label="AI Scout chat">
-        <p class="ss-sub" style="color:#8a9a92;">AI Scout</p>
+        <div class="ss-scout-intro">
+          <p class="ss-sub">AI Scout</p>
+          <p class="ss-scout-badge"><span class="ss-gemini-mark" aria-hidden="true">✦</span> Powered by Gemini · answers use live DB + weather tools</p>
+        </div>
         <div class="workspace">
           <section class="mission" aria-label="Mission Control chat">
             <div class="mission-head">
-              <h2 class="h-label">Mission Control</h2>
+              <div>
+                <h2 class="h-label">Mission Control</h2>
+                <p class="mission-sub">Natural language → structured trail queries</p>
+              </div>
               <button type="button" class="btn btn-ghost" id="newChat">+ New briefing</button>
             </div>
             <ul class="session-list mono" id="sessionList" role="listbox" aria-label="Briefing history"></ul>
             <div class="chat-scroll" id="messages" aria-live="polite"></div>
             <form id="composer" class="composer" aria-label="Send message to Scout">
               <label class="sr-only" for="input">Message Scout</label>
-              <textarea id="input" rows="3" placeholder="Ask the Scout: dog-friendly trail under 1000 ft, weather at the trailhead…" required autocomplete="off"></textarea>
+              <textarea id="input" rows="3" placeholder="Ask the Scout: dog-friendly trail under 1000 ft, weather at the trailhead, gear for mud season…" required autocomplete="off"></textarea>
               <button type="submit" class="btn btn-send" id="send">Send</button>
               <p class="composer-hint mono" aria-hidden="true">Enter to send · Shift+Enter for new line</p>
             </form>
@@ -65,8 +89,8 @@
 
           <section class="stage" aria-label="Operational stage">
             <div class="stage-head">
-              <h2 class="h-label">Operational Stage</h2>
-              <p class="stage-tagline">Trail hits, weather, gear, and safety itineraries update here when tools run.</p>
+              <h2 class="h-label">Operational stage</h2>
+              <p class="stage-tagline">Trail hits, weather, gear, and safety itineraries update here when the model runs tools against your data.</p>
             </div>
             <div class="stage-grid">
               <article class="card" id="cardTrails">
@@ -96,10 +120,22 @@
     </main>
 
     <nav class="ss-nav" aria-label="Main">
-      <button type="button" class="ss-nav-btn is-active" data-ss-tab="home" aria-current="page" title="Home">⌂</button>
-      <button type="button" class="ss-nav-btn" data-ss-tab="explore" title="Trails">◎</button>
-      <button type="button" class="ss-nav-btn" data-ss-tab="scout" title="Scout">💬</button>
-      <button type="button" class="ss-nav-btn" data-ss-tab="profile" title="Profile">👤</button>
+      <button type="button" class="ss-nav-btn is-active" data-ss-tab="home" aria-current="page" title="Home">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9.5 12 2l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/></svg>
+        <span>Home</span>
+      </button>
+      <button type="button" class="ss-nav-btn" data-ss-tab="explore" title="Trails">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 20h18M6 16l3-8 4 5 4-9 3 12"/></svg>
+        <span>Trails</span>
+      </button>
+      <button type="button" class="ss-nav-btn ss-nav-btn-ai" data-ss-tab="scout" title="AI Scout">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v2m0 14v2M4.2 4.2l1.4 1.4m12.8 12.8 1.4 1.4M3 12h2m14 0h2M4.2 19.8l1.4-1.4M18.4 5.8 19.8 4.2"/><circle cx="12" cy="12" r="4"/></svg>
+        <span>Scout AI</span>
+      </button>
+      <button type="button" class="ss-nav-btn" data-ss-tab="profile" title="Profile">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg>
+        <span>Profile</span>
+      </button>
     </nav>
   </div>
 
