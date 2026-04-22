@@ -1,0 +1,3 @@
+# Heroku dyno has no .NET SDK — global.json would make `dotnet ...` look for SDK 9.0.x and crash.
+# Build phase still sees global.json; this only strips it from the runtime slug.
+global.json

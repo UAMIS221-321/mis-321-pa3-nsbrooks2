@@ -201,7 +201,9 @@ mysqldump -u root -p pa_app > backup.sql
 | Symptom | What to check |
 |--------|----------------|
 | **Application error** on open | `heroku logs --tail --app your-app-name-here` |
-| DB connection errors | `heroku config --app your-app-name-here` — `DATABASE_URL` / `MYSQL_CONNECTION_STRING` |
+| **`DATABASE_URL` is empty** but JawsDB is attached | Normal: JawsDB sets **`JAWSDB_URL`**. This app reads that automatically (and `JAWSDB_OLIVE_URL` if present). |
+| **`PaApp.dll` does not exist** / **SDK 9.0.x not found** on dyno | Deploy latest **`Procfile`** (`dotnet PaApp/bin/publish/PaApp.dll`) and **`.slugignore`** excluding `global.json` (runtime has no SDK). |
+| DB connection errors | `heroku config --app your-app-name-here` — `MYSQL_CONNECTION_STRING`, `DATABASE_URL`, or JawsDB `JAWSDB_*` URLs |
 | **Build** fails on .NET version | Heroku buildpack may lag behind `net9.0`; check logs or temporarily retarget `net8.0` in `PaApp.csproj` if required |
 | **HTTPS / cookies** oddities | This repo enables **forwarded headers** in non-Development; ensure `ASPNETCORE_ENVIRONMENT=Production` on Heroku |
 
