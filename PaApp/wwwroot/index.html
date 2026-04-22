@@ -38,23 +38,48 @@
       </div>
     </header>
 
+    <nav class="ss-nav" aria-label="Main">
+      <button type="button" class="ss-nav-btn is-active" data-ss-tab="home" aria-current="page" title="Home">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9.5 12 2l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/></svg>
+        <span>Home</span>
+      </button>
+      <button type="button" class="ss-nav-btn" data-ss-tab="explore" title="Trails">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 20h18M6 16l3-8 4 5 4-9 3 12"/></svg>
+        <span>Trails</span>
+      </button>
+      <button type="button" class="ss-nav-btn ss-nav-btn-ai" data-ss-tab="scout" title="AI Scout">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v2m0 14v2M4.2 4.2l1.4 1.4m12.8 12.8 1.4 1.4M3 12h2m14 0h2M4.2 19.8l1.4-1.4M18.4 5.8 19.8 4.2"/><circle cx="12" cy="12" r="4"/></svg>
+        <span>Scout AI</span>
+      </button>
+      <button type="button" class="ss-nav-btn" data-ss-tab="profile" title="Profile">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg>
+        <span>Profile</span>
+      </button>
+    </nav>
+
     <main class="ss-main">
       <section id="viewHome" class="ss-view is-active" aria-label="Home feed">
-        <div class="ss-hero" aria-label="SummitScout AI overview">
-          <div class="ss-hero-glow" aria-hidden="true"></div>
-          <div class="ss-hero-inner">
-            <p class="ss-hero-kicker"><span class="ss-ai-dot" aria-hidden="true"></span> Gemini + your trail database</p>
-            <h1 class="ss-hero-title">Plan smarter hikes with <em>conversational</em> trail data.</h1>
-            <p class="ss-hero-lead">SummitScout AI reads live MySQL routes, weather, and community posts — then explains what matters in plain language.</p>
-            <div class="ss-hero-row">
-              <button type="button" class="ss-hero-cta" id="heroToScout">Open AI Scout</button>
-              <span class="ss-hero-meta">RAG · tools · social feed</span>
+        <div class="ss-home-layout">
+          <div class="ss-home-hero-col">
+            <div class="ss-hero" aria-label="SummitScout AI overview">
+              <div class="ss-hero-glow" aria-hidden="true"></div>
+              <div class="ss-hero-inner">
+                <p class="ss-hero-kicker"><span class="ss-ai-dot" aria-hidden="true"></span> Gemini + your trail database</p>
+                <h1 class="ss-hero-title">Plan smarter hikes with <em>conversational</em> trail data.</h1>
+                <p class="ss-hero-lead">SummitScout AI reads live MySQL routes, weather, and community posts — then explains what matters in plain language.</p>
+                <div class="ss-hero-row">
+                  <button type="button" class="ss-hero-cta" id="heroToScout">Open AI Scout</button>
+                  <span class="ss-hero-meta">RAG · tools · social feed</span>
+                </div>
+              </div>
             </div>
           </div>
+          <div class="ss-home-stream-col">
+            <p class="ss-sub">For you</p>
+            <div class="ss-story-strip" id="storyStrip" aria-label="People to follow"></div>
+            <div class="ss-feed" id="feedStream"></div>
+          </div>
         </div>
-        <p class="ss-sub">For you</p>
-        <div class="ss-story-strip" id="storyStrip" aria-label="People to follow"></div>
-        <div class="ss-feed" id="feedStream"></div>
       </section>
 
       <section id="viewExplore" class="ss-view" aria-label="Explore trails">
@@ -118,25 +143,6 @@
         <div id="profilePanel"></div>
       </section>
     </main>
-
-    <nav class="ss-nav" aria-label="Main">
-      <button type="button" class="ss-nav-btn is-active" data-ss-tab="home" aria-current="page" title="Home">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9.5 12 2l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/></svg>
-        <span>Home</span>
-      </button>
-      <button type="button" class="ss-nav-btn" data-ss-tab="explore" title="Trails">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 20h18M6 16l3-8 4 5 4-9 3 12"/></svg>
-        <span>Trails</span>
-      </button>
-      <button type="button" class="ss-nav-btn ss-nav-btn-ai" data-ss-tab="scout" title="AI Scout">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v2m0 14v2M4.2 4.2l1.4 1.4m12.8 12.8 1.4 1.4M3 12h2m14 0h2M4.2 19.8l1.4-1.4M18.4 5.8 19.8 4.2"/><circle cx="12" cy="12" r="4"/></svg>
-        <span>Scout AI</span>
-      </button>
-      <button type="button" class="ss-nav-btn" data-ss-tab="profile" title="Profile">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg>
-        <span>Profile</span>
-      </button>
-    </nav>
   </div>
 
   <div id="toastHost" class="toast-host" aria-live="polite"></div>

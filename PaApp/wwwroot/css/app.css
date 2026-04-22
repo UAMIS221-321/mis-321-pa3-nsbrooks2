@@ -102,15 +102,15 @@ body {
 
 .workspace {
   display: grid;
-  grid-template-columns: minmax(320px, 400px) 1fr;
-  max-width: 1480px;
+  grid-template-columns: minmax(340px, 440px) minmax(0, 1fr);
+  max-width: 100%;
   margin: 0 auto;
-  min-height: calc(100vh - 56px);
+  min-height: calc(100vh - 120px);
   border-left: 1px solid var(--line);
   border-right: 1px solid var(--line);
 }
 
-@media (max-width: 960px) {
+@media (max-width: 899px) {
   .workspace {
     grid-template-columns: 1fr;
   }
@@ -337,7 +337,7 @@ body {
   gap: 0.75rem;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 899px) {
   .stage-grid {
     grid-template-columns: 1fr;
   }
@@ -514,7 +514,7 @@ body {
     linear-gradient(180deg, var(--paper) 0%, var(--sand) 38%, var(--sand-deep) 100%);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 899px) {
   .ss-shell {
     max-width: 640px;
     padding-bottom: 84px;
@@ -650,6 +650,17 @@ body {
 
 .ss-main {
   flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 899px) {
+  .ss-main {
+    order: 1;
+  }
+
+  .ss-nav {
+    order: 2;
+  }
 }
 
 .ss-view {
@@ -1138,7 +1149,7 @@ body {
   box-shadow: 0 -8px 28px rgba(47, 36, 25, 0.06);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 899px) {
   .ss-nav {
     max-width: 640px;
   }
@@ -1268,4 +1279,165 @@ body {
   border-left: none;
   border-right: none;
   max-width: none;
+}
+
+/* --- Desktop layout (primary target: laptop / browser tab) --- */
+.ss-home-layout {
+  display: block;
+}
+
+.ss-home-stream-col {
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .ss-shell {
+    max-width: min(1320px, calc(100vw - 2.5rem));
+    margin: 0 auto;
+    padding: 0 1.25rem 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .ss-header {
+    padding: 0.85rem 0;
+    margin: 0 -0.25rem;
+  }
+
+  .ss-main {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .ss-nav {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    max-width: none;
+    width: 100%;
+    margin: 0 0 0.25rem;
+    padding: 0.4rem 0.5rem;
+    border-top: none;
+    border-bottom: 1px solid var(--line-light);
+    border-radius: 14px 14px 0 0;
+    box-shadow: 0 1px 0 rgba(47, 36, 25, 0.04);
+    justify-content: flex-start;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    background: rgba(250, 246, 239, 0.97);
+  }
+
+  .ss-nav-btn {
+    flex: 0 1 auto;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    gap: 0.45rem;
+    border-radius: 10px;
+  }
+
+  .ss-nav-btn span {
+    font-size: 0.76rem;
+    letter-spacing: 0.06em;
+  }
+
+  .ss-nav-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .ss-db-pill {
+    max-width: 14rem;
+  }
+
+  .ss-home-layout {
+    display: grid;
+    grid-template-columns: minmax(300px, 40%) minmax(0, 1fr);
+    gap: 1.5rem 2rem;
+    align-items: start;
+    padding: 0.5rem 0 0;
+  }
+
+  .ss-hero {
+    margin: 0;
+    height: 100%;
+    min-height: 100%;
+  }
+
+  .ss-hero-inner {
+    padding: 1.35rem 1.35rem 1.5rem;
+  }
+
+  .ss-hero-title {
+    font-size: clamp(1.5rem, 2.1vw, 1.85rem);
+  }
+
+  .ss-hero-lead {
+    font-size: 0.95rem;
+  }
+
+  .ss-home-stream-col .ss-sub:first-of-type {
+    padding-top: 0.35rem;
+  }
+
+  .ss-story-strip {
+    border-radius: 12px;
+    border: 1px solid var(--line-light);
+    background: rgba(255, 255, 255, 0.45);
+    margin-bottom: 0.5rem;
+  }
+
+  .ss-feed {
+    border-radius: 14px;
+    border: 1px solid var(--line-light);
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  .ss-explore-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+    padding: 0.75rem 0 2rem;
+  }
+
+  .ss-explore-tile-visual {
+    height: 140px;
+  }
+
+  .ss-profile-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .workspace {
+    grid-template-columns: minmax(360px, 460px) minmax(0, 1fr);
+    min-height: calc(100vh - 200px);
+    border-radius: 0 0 16px 16px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-top: none;
+  }
+
+  #viewScout {
+    min-height: calc(100vh - 180px);
+    border-radius: 0 0 16px 16px;
+    overflow: hidden;
+  }
+
+  .session-list {
+    max-height: min(240px, 28vh);
+  }
+
+  .chat-scroll {
+    min-height: min(420px, 52vh);
+  }
+
+  #viewProfile {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .toast-host {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
 }
