@@ -1,6 +1,25 @@
+using System.Reflection;
 using Microsoft.AspNetCore.HttpOverrides;
 using PaApp.Services;
 using PaApp.Services.Gemini;
+
+// Heroku: Procfile may run `dotnet PaApp/bin/publish/PaApp.dll` with cwd `/app`, so wwwroot is not at `/app/wwwroot`.
+// Use the folder that contains the entry DLL (publish output) as the content root.
+try
+{
+    var entry = Assembly.GetEntryAssembly();
+    var dllDir = Path.GetDirectoryName(entry?.Location);
+    if (!string.IsNullOrEmpty(dllDir)
+        && Directory.Exists(Path.Combine(dllDir, "wwwroot"))
+        && !Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")))
+    {
+        Directory.SetCurrentDirectory(dllDir);
+    }
+}
+catch
+{
+    // keep default cwd
+}
 
 var builder = WebApplication.CreateBuilder(args);
 
