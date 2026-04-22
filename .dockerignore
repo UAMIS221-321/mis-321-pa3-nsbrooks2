@@ -1,0 +1,8 @@
+**/bin/
+**/obj/
+.git/
+.gitignore
+.cursor/
+**/.vs/
+**/*.user
+**/agent-transcripts/

@@ -1,0 +1,6 @@
+@PaApp_HostAddress = http://localhost:5090
+
+GET {{PaApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

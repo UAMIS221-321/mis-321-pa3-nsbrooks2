@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="SummitScout — a social feed for hikers: trail picks, profiles, and an AI Scout for weather, gear, and safety." />
+  <meta name="theme-color" content="#fafafa" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%2316a34a' d='M16 4 28 26H4z'/%3E%3C/svg%3E" />
+  <title>SummitScout — Hike &amp; connect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/app.css" />
+</head>
+<body>
+  <div id="profilePicker" class="ss-modal-overlay" hidden>
+    <div class="ss-modal" role="dialog" aria-labelledby="pickerTitle">
+      <h2 id="pickerTitle" class="ss-headline">Who’s hiking?</h2>
+      <p style="margin:0 0 0.75rem;font-size:0.88rem;color:#525252;">Pick a demo profile (cookie, no password). You can switch anytime.</p>
+      <ul class="ss-modal-list" id="profilePickerList"></ul>
+    </div>
+  </div>
+
+  <div class="ss-shell">
+    <header class="ss-header">
+      <div class="ss-brand">
+        <span class="ss-brand-mark" aria-hidden="true"></span>
+        <span class="ss-brand-text">SummitScout</span>
+      </div>
+      <div class="ss-header-actions">
+        <button type="button" class="ss-btn-icon" id="openPicker" title="Switch profile" aria-label="Switch profile">⇄</button>
+      </div>
+    </header>
+
+    <main class="ss-main">
+      <section id="viewHome" class="ss-view is-active" aria-label="Home feed">
+        <p class="ss-sub">For you</p>
+        <div class="ss-story-strip" id="storyStrip" aria-label="People to follow"></div>
+        <div class="ss-feed" id="feedStream"></div>
+      </section>
+
+      <section id="viewExplore" class="ss-view" aria-label="Explore trails">
+        <p class="ss-sub">Trails for your next trip</p>
+        <div class="ss-explore-grid" id="exploreGrid"></div>
+      </section>
+
+      <section id="viewScout" class="ss-view" aria-label="AI Scout chat">
+        <p class="ss-sub" style="color:#8a9a92;">AI Scout</p>
+        <div class="workspace">
+          <section class="mission" aria-label="Mission Control chat">
+            <div class="mission-head">
+              <h2 class="h-label">Mission Control</h2>
+              <button type="button" class="btn btn-ghost" id="newChat">+ New briefing</button>
+            </div>
+            <ul class="session-list mono" id="sessionList" role="listbox" aria-label="Briefing history"></ul>
+            <div class="chat-scroll" id="messages" aria-live="polite"></div>
+            <form id="composer" class="composer" aria-label="Send message to Scout">
+              <label class="sr-only" for="input">Message Scout</label>
+              <textarea id="input" rows="3" placeholder="Ask the Scout: dog-friendly trail under 1000 ft, weather at the trailhead…" required autocomplete="off"></textarea>
+              <button type="submit" class="btn btn-send" id="send">Send</button>
+              <p class="composer-hint mono" aria-hidden="true">Enter to send · Shift+Enter for new line</p>
+            </form>
+            <div class="mono footnote" id="status"></div>
+          </section>
+
+          <section class="stage" aria-label="Operational stage">
+            <div class="stage-head">
+              <h2 class="h-label">Operational Stage</h2>
+              <p class="stage-tagline">Trail hits, weather, gear, and safety itineraries update here when tools run.</p>
+            </div>
+            <div class="stage-grid">
+              <article class="card" id="cardTrails">
+                <header class="card-h"><span class="card-k">01</span> Trail intelligence</header>
+                <div class="card-body mono" id="stageTrails"><p class="placeholder">No trail query yet.</p></div>
+              </article>
+              <article class="card" id="cardWeather">
+                <header class="card-h"><span class="card-k">02</span> Trailhead weather</header>
+                <div class="card-body" id="stageWeather"><p class="placeholder mono">Awaiting forecast…</p></div>
+              </article>
+              <article class="card" id="cardGear">
+                <header class="card-h"><span class="card-k">03</span> Gear checklist</header>
+                <div class="card-body mono" id="stageGear"><p class="placeholder">Ask the Scout to build a loadout.</p></div>
+              </article>
+              <article class="card card-wide" id="cardItinerary">
+                <header class="card-h"><span class="card-k">04</span> Safety itinerary</header>
+                <div class="card-body mono" id="stageItinerary"><p class="placeholder">Generate a shareable itinerary in chat.</p></div>
+              </article>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="viewProfile" class="ss-view" aria-label="Your profile">
+        <div id="profilePanel"></div>
+      </section>
+    </main>
+
+    <nav class="ss-nav" aria-label="Main">
+      <button type="button" class="ss-nav-btn is-active" data-ss-tab="home" aria-current="page" title="Home">⌂</button>
+      <button type="button" class="ss-nav-btn" data-ss-tab="explore" title="Trails">◎</button>
+      <button type="button" class="ss-nav-btn" data-ss-tab="scout" title="Scout">💬</button>
+      <button type="button" class="ss-nav-btn" data-ss-tab="profile" title="Profile">👤</button>
+    </nav>
+  </div>
+
+  <div id="toastHost" class="toast-host" aria-live="polite"></div>
+  <script src="/js/app.js" type="module"></script>
+</body>
+</html>
